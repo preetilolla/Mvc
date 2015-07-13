@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq.Expressions;
+using Microsoft.AspNet.Html.Abstractions;
 using Microsoft.Framework.Internal;
 
 namespace Microsoft.AspNet.Mvc.Rendering
@@ -36,7 +37,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString Editor([NotNull] this IHtmlHelper htmlHelper, string expression)
+        public static IHtmlContent Editor([NotNull] this IHtmlHelper htmlHelper, string expression)
         {
             return htmlHelper.Editor(expression, templateName: null, htmlFieldName: null, additionalViewData: null);
         }
@@ -71,7 +72,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString Editor(
+        public static IHtmlContent Editor(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             object additionalViewData)
@@ -109,7 +110,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString Editor([NotNull] this IHtmlHelper htmlHelper, string expression, string templateName)
+        public static IHtmlContent Editor([NotNull] this IHtmlHelper htmlHelper, string expression, string templateName)
         {
             return htmlHelper.Editor(expression, templateName, htmlFieldName: null, additionalViewData: null);
         }
@@ -145,7 +146,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString Editor(
+        public static IHtmlContent Editor(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             string templateName,
@@ -188,7 +189,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString Editor(
+        public static IHtmlContent Editor(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             string templateName,
@@ -216,7 +217,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorFor<TModel, TResult>(
+        public static IHtmlContent EditorFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression)
         {
@@ -248,7 +249,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorFor<TModel, TResult>(
+        public static IHtmlContent EditorFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             object additionalViewData)
@@ -281,7 +282,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorFor<TModel, TResult>(
+        public static IHtmlContent EditorFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string templateName)
@@ -315,7 +316,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorFor<TModel, TResult>(
+        public static IHtmlContent EditorFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string templateName,
@@ -353,7 +354,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorFor<TModel, TResult>(
+        public static IHtmlContent EditorFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string templateName,
@@ -378,7 +379,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorForModel([NotNull] this IHtmlHelper htmlHelper)
+        public static IHtmlContent EditorForModel([NotNull] this IHtmlHelper htmlHelper)
         {
             return htmlHelper.Editor(
                 expression: null,
@@ -408,7 +409,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorForModel([NotNull] this IHtmlHelper htmlHelper, object additionalViewData)
+        public static IHtmlContent EditorForModel([NotNull] this IHtmlHelper htmlHelper, object additionalViewData)
         {
             return htmlHelper.Editor(
                 expression: null,
@@ -434,7 +435,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorForModel([NotNull] this IHtmlHelper htmlHelper, string templateName)
+        public static IHtmlContent EditorForModel([NotNull] this IHtmlHelper htmlHelper, string templateName)
         {
             return htmlHelper.Editor(
                 expression: null,
@@ -466,7 +467,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorForModel(
+        public static IHtmlContent EditorForModel(
             [NotNull] this IHtmlHelper htmlHelper,
             string templateName,
             object additionalViewData)
@@ -500,7 +501,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorForModel(
+        public static IHtmlContent EditorForModel(
             [NotNull] this IHtmlHelper htmlHelper,
             string templateName,
             string htmlFieldName)
@@ -539,7 +540,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// case-sensitive file systems.
         /// </para>
         /// </remarks>
-        public static HtmlString EditorForModel(
+        public static IHtmlContent EditorForModel(
             [NotNull] this IHtmlHelper htmlHelper,
             string templateName,
             string htmlFieldName,

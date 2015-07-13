@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNet.Html.Abstractions;
 using Microsoft.Framework.Internal;
 
 namespace Microsoft.AspNet.Mvc.Rendering
@@ -17,7 +18,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <param name="linkText">The inner text of the anchor element. Must not be <c>null</c>.</param>
         /// <param name="actionName">The name of the action.</param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString ActionLink(
+        public static IHtmlContent ActionLink(
             [NotNull] this IHtmlHelper helper,
             [NotNull] string linkText,
             string actionName)
@@ -47,7 +48,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// parameters.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString ActionLink(
+        public static IHtmlContent ActionLink(
             [NotNull] this IHtmlHelper helper,
             [NotNull] string linkText,
             string actionName,
@@ -83,7 +84,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// attributes.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString ActionLink(
+        public static IHtmlContent ActionLink(
             [NotNull] this IHtmlHelper helper,
             [NotNull] string linkText,
             string actionName,
@@ -109,7 +110,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <param name="actionName">The name of the action.</param>
         /// <param name="controllerName">The name of the controller.</param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString ActionLink(
+        public static IHtmlContent ActionLink(
             [NotNull] this IHtmlHelper helper,
             [NotNull] string linkText,
             string actionName,
@@ -141,7 +142,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// parameters.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString ActionLink(
+        public static IHtmlContent ActionLink(
             [NotNull] this IHtmlHelper helper,
             [NotNull] string linkText,
             string actionName,
@@ -179,7 +180,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// attributes.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString ActionLink(
+        public static IHtmlContent ActionLink(
             [NotNull] this IHtmlHelper helper,
             [NotNull] string linkText,
             string actionName,
@@ -211,7 +212,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// parameters.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString RouteLink(
+        public static IHtmlContent RouteLink(
             [NotNull] this IHtmlHelper htmlHelper,
             [NotNull] string linkText,
             object routeValues)
@@ -233,7 +234,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <param name="linkText">The inner text of the anchor element. Must not be <c>null</c>.</param>
         /// <param name="routeName">The name of the route.</param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString RouteLink(
+        public static IHtmlContent RouteLink(
             [NotNull] this IHtmlHelper htmlHelper,
             [NotNull] string linkText,
             string routeName)
@@ -262,7 +263,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// parameters.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString RouteLink(
+        public static IHtmlContent RouteLink(
             [NotNull] this IHtmlHelper htmlHelper,
             [NotNull] string linkText,
             string routeName,
@@ -296,7 +297,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// attributes.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString RouteLink(
+        public static IHtmlContent RouteLink(
             [NotNull] this IHtmlHelper htmlHelper,
             [NotNull] string linkText,
             object routeValues,
@@ -331,7 +332,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// attributes.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the anchor element.</returns>
-        public static HtmlString RouteLink(
+        public static IHtmlContent RouteLink(
             [NotNull] this IHtmlHelper htmlHelper,
             [NotNull] string linkText,
             string routeName,

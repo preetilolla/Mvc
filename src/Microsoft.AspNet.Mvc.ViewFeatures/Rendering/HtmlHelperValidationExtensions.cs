@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq.Expressions;
+using Microsoft.AspNet.Html.Abstractions;
 using Microsoft.Framework.Internal;
 
 namespace Microsoft.AspNet.Mvc.Rendering
@@ -26,7 +27,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// Method extracts an error string from the <see cref="ModelBinding.ModelStateDictionary"/> object. Message
         /// will always be visible but client-side validation may update the associated CSS class.
         /// </remarks>
-        public static HtmlString ValidationMessage(
+        public static IHtmlContent ValidationMessage(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression)
         {
@@ -48,7 +49,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// A new <see cref="HtmlString"/> containing a <see cref="ViewContext.ValidationMessageElement"/> element.
         /// <c>null</c> if the <paramref name="expression"/> is valid and client-side validation is disabled.
         /// </returns>
-        public static HtmlString ValidationMessage(
+        public static IHtmlContent ValidationMessage(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             string message)
@@ -76,7 +77,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// Method extracts an error string from the <see cref="ModelBinding.ModelStateDictionary"/> object. Message
         /// will always be visible but client-side validation may update the associated CSS class.
         /// </remarks>
-        public static HtmlString ValidationMessage(
+        public static IHtmlContent ValidationMessage(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             object htmlAttributes)
@@ -103,7 +104,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// A new <see cref="HtmlString"/> containing a <paramref name="tag"/> element. <c>null</c> if the
         /// <paramref name="expression"/> is valid and client-side validation is disabled.
         /// </returns>
-        public static HtmlString ValidationMessage(
+        public static IHtmlContent ValidationMessage(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             string message,
@@ -133,7 +134,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// A new <see cref="HtmlString"/> containing a <see cref="ViewContext.ValidationMessageElement"/> element.
         /// <c>null</c> if the <paramref name="expression"/> is valid and client-side validation is disabled.
         /// </returns>
-        public static HtmlString ValidationMessage(
+        public static IHtmlContent ValidationMessage(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             string message,
@@ -158,7 +159,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// Method extracts an error string from the <see cref="ModelBinding.ModelStateDictionary"/> object. Message
         /// will always be visible but client-side validation may update the associated CSS class.
         /// </remarks>
-        public static HtmlString ValidationMessageFor<TModel, TResult>(
+        public static IHtmlContent ValidationMessageFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression)
         {
@@ -182,7 +183,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// A new <see cref="HtmlString"/> containing a <see cref="ViewContext.ValidationMessageElement"/> element.
         /// <c>null</c> if the <paramref name="expression"/> is valid and client-side validation is disabled.
         /// </returns>
-        public static HtmlString ValidationMessageFor<TModel, TResult>(
+        public static IHtmlContent ValidationMessageFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string message)
@@ -213,7 +214,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// A new <see cref="HtmlString"/> containing a <see cref="ViewContext.ValidationMessageElement"/> element.
         /// <c>null</c> if the <paramref name="expression"/> is valid and client-side validation is disabled.
         /// </returns>
-        public static HtmlString ValidationMessageFor<TModel, TResult>(
+        public static IHtmlContent ValidationMessageFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string message,
@@ -243,7 +244,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// A new <see cref="HtmlString"/> containing the <paramref name="tag"/> element. <c>null</c> if the
         /// <paramref name="expression"/> is valid and client-side validation is disabled.
         /// </returns>
-        public static HtmlString ValidationMessageFor<TModel, TResult>(
+        public static IHtmlContent ValidationMessageFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string message,
@@ -261,7 +262,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// New <see cref="HtmlString"/> containing a &lt;div&gt; element wrapping the &lt;ul&gt; element.
         /// <see cref="HtmlString.Empty"/> if the current model is valid and client-side validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary([NotNull] this IHtmlHelper htmlHelper)
+        public static IHtmlContent ValidationSummary([NotNull] this IHtmlHelper htmlHelper)
         {
             return htmlHelper.ValidationSummary(
                 excludePropertyErrors: false,
@@ -282,7 +283,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// New <see cref="HtmlString"/> containing a &lt;div&gt; element wrapping the &lt;ul&gt; element.
         /// <see cref="HtmlString.Empty"/> if the current model is valid and client-side validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary([NotNull] this IHtmlHelper htmlHelper, bool excludePropertyErrors)
+        public static IHtmlContent ValidationSummary([NotNull] this IHtmlHelper htmlHelper, bool excludePropertyErrors)
         {
             return htmlHelper.ValidationSummary(
                 excludePropertyErrors,
@@ -303,7 +304,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="message"/>) and the &lt;ul&gt; element. <see cref="HtmlString.Empty"/> if the current model
         /// is valid and client-side validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary([NotNull] this IHtmlHelper htmlHelper, string message)
+        public static IHtmlContent ValidationSummary([NotNull] this IHtmlHelper htmlHelper, string message)
         {
             return htmlHelper.ValidationSummary(
                 excludePropertyErrors: false,
@@ -327,7 +328,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// and the &lt;ul&gt; element. <see cref="HtmlString.Empty"/> if the current model is valid and client-side
         /// validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary([NotNull] this IHtmlHelper htmlHelper, string message, string tag)
+        public static IHtmlContent ValidationSummary([NotNull] this IHtmlHelper htmlHelper, string message, string tag)
         {
             return htmlHelper.ValidationSummary(
                 excludePropertyErrors: false,
@@ -351,7 +352,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="message"/>) and the &lt;ul&gt; element. <see cref="HtmlString.Empty"/> if the current model
         /// is valid and client-side validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary(
+        public static IHtmlContent ValidationSummary(
             [NotNull] this IHtmlHelper htmlHelper,
             bool excludePropertyErrors,
             string message)
@@ -380,7 +381,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="message"/>) and the &lt;ul&gt; element. <see cref="HtmlString.Empty"/> if the current model
         /// is valid and client-side validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary(
+        public static IHtmlContent ValidationSummary(
             [NotNull] this IHtmlHelper htmlHelper,
             string message,
             object htmlAttributes)
@@ -412,7 +413,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// and the &lt;ul&gt; element. <see cref="HtmlString.Empty"/> if the current model is valid and client-side
         /// validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary(
+        public static IHtmlContent ValidationSummary(
             [NotNull] this IHtmlHelper htmlHelper,
             string message,
             object htmlAttributes,
@@ -443,7 +444,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// and the &lt;ul&gt; element. <see cref="HtmlString.Empty"/> if the current model is valid and client-side
         /// validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary(
+        public static IHtmlContent ValidationSummary(
             [NotNull] this IHtmlHelper htmlHelper,
             bool excludePropertyErrors,
             string message,
@@ -476,7 +477,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="message"/>) and the &lt;ul&gt; element. <see cref="HtmlString.Empty"/> if the current model
         /// is valid and client-side validation is disabled).
         /// </returns>
-        public static HtmlString ValidationSummary(
+        public static IHtmlContent ValidationSummary(
             [NotNull] this IHtmlHelper htmlHelper,
             bool excludePropertyErrors,
             string message,

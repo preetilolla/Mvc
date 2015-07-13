@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq.Expressions;
+using Microsoft.AspNet.Html.Abstractions;
 using Microsoft.Framework.Internal;
 
 namespace Microsoft.AspNet.Mvc.Rendering
@@ -18,7 +19,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <param name="htmlHelper">The <see cref="IHtmlHelper"/> instance this method extends.</param>
         /// <param name="expression">Expression name, relative to the current model.</param>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString Label([NotNull] this IHtmlHelper htmlHelper, string expression)
+        public static IHtmlContent Label([NotNull] this IHtmlHelper htmlHelper, string expression)
         {
             return htmlHelper.Label(expression, labelText: null, htmlAttributes: null);
         }
@@ -30,7 +31,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <param name="expression">Expression name, relative to the current model.</param>
         /// <param name="labelText">The inner text of the element.</param>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString Label([NotNull] this IHtmlHelper htmlHelper, string expression, string labelText)
+        public static IHtmlContent Label([NotNull] this IHtmlHelper htmlHelper, string expression, string labelText)
         {
             return htmlHelper.Label(expression, labelText, htmlAttributes: null);
         }
@@ -43,7 +44,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <typeparam name="TModel">The type of the model.</typeparam>
         /// <typeparam name="TResult">The type of the <paramref name="expression"/> result.</typeparam>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString LabelFor<TModel, TResult>(
+        public static IHtmlContent LabelFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression)
         {
@@ -59,7 +60,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <typeparam name="TModel">The type of the model.</typeparam>
         /// <typeparam name="TResult">The type of the <paramref name="expression"/> result.</typeparam>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString LabelFor<TModel, TResult>(
+        public static IHtmlContent LabelFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string labelText)
@@ -80,7 +81,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <typeparam name="TModel">The type of the model.</typeparam>
         /// <typeparam name="TResult">The type of the <paramref name="expression"/> result.</typeparam>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString LabelFor<TModel, TResult>(
+        public static IHtmlContent LabelFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             object htmlAttributes)
@@ -93,7 +94,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// </summary>
         /// <param name="htmlHelper">The <see cref="IHtmlHelper"/> instance this method extends.</param>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString LabelForModel([NotNull] this IHtmlHelper htmlHelper)
+        public static IHtmlContent LabelForModel([NotNull] this IHtmlHelper htmlHelper)
         {
             return htmlHelper.Label(expression: null, labelText: null, htmlAttributes: null);
         }
@@ -104,7 +105,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <param name="htmlHelper">The <see cref="IHtmlHelper"/> instance this method extends.</param>
         /// <param name="labelText">The inner text of the element.</param>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString LabelForModel([NotNull] this IHtmlHelper htmlHelper, string labelText)
+        public static IHtmlContent LabelForModel([NotNull] this IHtmlHelper htmlHelper, string labelText)
         {
             return htmlHelper.Label(expression: null, labelText: labelText, htmlAttributes: null);
         }
@@ -119,7 +120,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// attributes.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString LabelForModel([NotNull] this IHtmlHelper htmlHelper, object htmlAttributes)
+        public static IHtmlContent LabelForModel([NotNull] this IHtmlHelper htmlHelper, object htmlAttributes)
         {
             return htmlHelper.Label(expression: null, labelText: null, htmlAttributes: htmlAttributes);
         }
@@ -135,7 +136,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// attributes.
         /// </param>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        public static HtmlString LabelForModel(
+        public static IHtmlContent LabelForModel(
             [NotNull] this IHtmlHelper htmlHelper,
             string labelText,
             object htmlAttributes)

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Microsoft.AspNet.Html.Abstractions;
 using Microsoft.Framework.Internal;
 
 namespace Microsoft.AspNet.Mvc.Rendering
@@ -53,7 +54,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// if the <see cref="bool"/> values is <c>true</c>; does not include the attribute otherwise.
         /// </para>
         /// </remarks>
-        HtmlString CheckBoxFor([NotNull] Expression<Func<TModel, bool>> expression, object htmlAttributes);
+        IHtmlContent CheckBoxFor([NotNull] Expression<Func<TModel, bool>> expression, object htmlAttributes);
 
         /// <summary>
         /// Returns HTML markup for the <paramref name="expression"/>, using a display template, specified HTML field
@@ -77,7 +78,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// For example the default <see cref="object"/> display template includes markup for each property in the
         /// <paramref name="expression"/> result.
         /// </remarks>
-        HtmlString DisplayFor<TResult>(
+        IHtmlContent DisplayFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string templateName,
             string htmlFieldName,
@@ -137,7 +138,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="expression"/> to set &lt;select&gt; element's "name" attribute. Sanitizes the string
         /// representation of the <paramref name="expression"/> to set element's "id" attribute.
         /// </remarks>
-        HtmlString DropDownListFor<TResult>(
+        IHtmlContent DropDownListFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             IEnumerable<SelectListItem> selectList,
             string optionLabel,
@@ -165,7 +166,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// For example the default <see cref="object"/> editor template includes &lt;label&gt; and &lt;input&gt;
         /// elements for each property in the <paramref name="expression"/> result.
         /// </remarks>
-        HtmlString EditorFor<TResult>(
+        IHtmlContent EditorFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string templateName,
             string htmlFieldName,
@@ -207,7 +208,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <item>Otherwise, <c>string.Empty</c>.</item>
         /// </list>
         /// </remarks>
-        HtmlString HiddenFor<TResult>(
+        IHtmlContent HiddenFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             object htmlAttributes);
 
@@ -230,7 +231,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// </param>
         /// <typeparam name="TResult">The type of the <paramref name="expression"/> result.</typeparam>
         /// <returns>A new <see cref="HtmlString"/> containing the &lt;label&gt; element.</returns>
-        HtmlString LabelFor<TResult>(
+        IHtmlContent LabelFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string labelText,
             object htmlAttributes);
@@ -255,7 +256,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="expression"/> to set &lt;select&gt; element's "name" attribute. Sanitizes the string
         /// representation of the <paramref name="expression"/> to set element's "id" attribute.
         /// </remarks>
-        HtmlString ListBoxFor<TResult>(
+        IHtmlContent ListBoxFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             IEnumerable<SelectListItem> selectList,
             object htmlAttributes);
@@ -294,7 +295,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <item>Otherwise, <c>string.Empty</c>.</item>
         /// </list>
         /// </remarks>
-        HtmlString PasswordFor<TResult>(
+        IHtmlContent PasswordFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             object htmlAttributes);
 
@@ -334,7 +335,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="value"/>; does not include the attribute otherwise.
         /// </para>
         /// </remarks>
-        HtmlString RadioButtonFor<TResult>(
+        IHtmlContent RadioButtonFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             [NotNull] object value,
             object htmlAttributes);
@@ -375,7 +376,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <item>Otherwise, <c>string.Empty</c>.</item>
         /// </list>
         /// </remarks>
-        HtmlString TextAreaFor<TResult>(
+        IHtmlContent TextAreaFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             int rows,
             int columns,
@@ -415,7 +416,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <item>Otherwise, <c>string.Empty</c>.</item>
         /// </list>
         /// </remarks>
-        HtmlString TextBoxFor<TResult>(
+        IHtmlContent TextBoxFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string format,
             object htmlAttributes);
@@ -443,7 +444,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// A new <see cref="HtmlString"/> containing the <paramref name="tag"/> element. <c>null</c> if the
         /// <paramref name="expression"/> is valid and client-side validation is disabled.
         /// </returns>
-        HtmlString ValidationMessageFor<TResult>(
+        IHtmlContent ValidationMessageFor<TResult>(
             [NotNull] Expression<Func<TModel, TResult>> expression,
             string message,
             object htmlAttributes,

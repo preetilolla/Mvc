@@ -236,25 +236,27 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 }
             }
 
-            var tagBuilder = Generator.GenerateCheckBox(
+            var checkBoxBuilder = Generator.GenerateCheckBox(
                 ViewContext,
                 modelExplorer,
                 For.Name,
                 isChecked: null,
                 htmlAttributes: htmlAttributes);
-            if (tagBuilder != null)
+            if (checkBoxBuilder != null)
             {
                 // Do not generate current element's attributes or tags. Instead put both <input type="checkbox"/> and
                 // <input type="hidden"/> into the output's Content.
                 output.Attributes.Clear();
                 output.TagName = null;
 
-                output.Content.Append(tagBuilder.ToString(TagRenderMode.SelfClosing));
+                checkBoxBuilder.TagRenderMode = TagRenderMode.SelfClosing;
+                output.Content.Append(checkBoxBuilder);
 
-                tagBuilder = Generator.GenerateHiddenForCheckbox(ViewContext, modelExplorer, For.Name);
-                if (tagBuilder != null)
+                var hiddenBuilder = Generator.GenerateHiddenForCheckbox(ViewContext, modelExplorer, For.Name);
+                if (checkBoxBuilder != null)
                 {
-                    output.Content.Append(tagBuilder.ToString(TagRenderMode.SelfClosing));
+                    hiddenBuilder.TagRenderMode = TagRenderMode.SelfClosing;
+                    output.Content.Append(hiddenBuilder);
                 }
             }
         }

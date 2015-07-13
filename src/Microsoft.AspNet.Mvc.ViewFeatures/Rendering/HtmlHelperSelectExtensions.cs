@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Microsoft.AspNet.Html.Abstractions;
 using Microsoft.Framework.Internal;
 
 namespace Microsoft.AspNet.Mvc.Rendering
@@ -24,7 +25,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// &lt;select&gt; element's "name" attribute. Sanitizes <paramref name="expression"/> to set element's "id"
         /// attribute.
         /// </remarks>
-        public static HtmlString DropDownList([NotNull] this IHtmlHelper htmlHelper, string expression)
+        public static IHtmlContent DropDownList([NotNull] this IHtmlHelper htmlHelper, string expression)
         {
             return htmlHelper.DropDownList(expression, selectList: null, optionLabel: null, htmlAttributes: null);
         }
@@ -44,7 +45,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// &lt;select&gt; element's "name" attribute. Sanitizes <paramref name="expression"/> to set element's "id"
         /// attribute.
         /// </remarks>
-        public static HtmlString DropDownList(
+        public static IHtmlContent DropDownList(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             string optionLabel)
@@ -72,7 +73,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// &lt;select&gt; element's "name" attribute. Sanitizes <paramref name="expression"/> to set element's "id"
         /// attribute.
         /// </remarks>
-        public static HtmlString DropDownList(
+        public static IHtmlContent DropDownList(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             IEnumerable<SelectListItem> selectList)
@@ -100,7 +101,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// &lt;select&gt; element's "name" attribute. Sanitizes <paramref name="expression"/> to set element's "id"
         /// attribute.
         /// </remarks>
-        public static HtmlString DropDownList(
+        public static IHtmlContent DropDownList(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             IEnumerable<SelectListItem> selectList,
@@ -128,7 +129,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// &lt;select&gt; element's "name" attribute. Sanitizes <paramref name="expression"/> to set element's "id"
         /// attribute.
         /// </remarks>
-        public static HtmlString DropDownList(
+        public static IHtmlContent DropDownList(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             IEnumerable<SelectListItem> selectList,
@@ -155,7 +156,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="expression"/> to set &lt;select&gt; element's "name" attribute. Sanitizes the string
         /// representation of the <paramref name="expression"/> to set element's "id" attribute.
         /// </remarks>
-        public static HtmlString DropDownListFor<TModel, TResult>(
+        public static IHtmlContent DropDownListFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             IEnumerable<SelectListItem> selectList)
@@ -185,7 +186,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="expression"/> to set &lt;select&gt; element's "name" attribute. Sanitizes the string
         /// representation of the <paramref name="expression"/> to set element's "id" attribute.
         /// </remarks>
-        public static HtmlString DropDownListFor<TModel, TResult>(
+        public static IHtmlContent DropDownListFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             IEnumerable<SelectListItem> selectList,
@@ -219,7 +220,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="expression"/> to set &lt;select&gt; element's "name" attribute. Sanitizes the string
         /// representation of the <paramref name="expression"/> to set element's "id" attribute.
         /// </remarks>
-        public static HtmlString DropDownListFor<TModel, TResult>(
+        public static IHtmlContent DropDownListFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             IEnumerable<SelectListItem> selectList,
@@ -239,7 +240,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// &lt;select&gt; element's "name" attribute. Sanitizes <paramref name="expression"/> to set element's "id"
         /// attribute.
         /// </remarks>
-        public static HtmlString ListBox([NotNull] this IHtmlHelper htmlHelper, string expression)
+        public static IHtmlContent ListBox([NotNull] this IHtmlHelper htmlHelper, string expression)
         {
             return htmlHelper.ListBox(expression, selectList: null, htmlAttributes: null);
         }
@@ -260,7 +261,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// &lt;select&gt; element's "name" attribute. Sanitizes <paramref name="expression"/> to set element's "id"
         /// attribute.
         /// </remarks>
-        public static HtmlString ListBox(
+        public static IHtmlContent ListBox(
             [NotNull] this IHtmlHelper htmlHelper,
             string expression,
             IEnumerable<SelectListItem> selectList)
@@ -286,7 +287,7 @@ namespace Microsoft.AspNet.Mvc.Rendering
         /// <paramref name="expression"/> to set &lt;select&gt; element's "name" attribute. Sanitizes the string
         /// representation of the <paramref name="expression"/> to set element's "id" attribute.
         /// </remarks>
-        public static HtmlString ListBoxFor<TModel, TResult>(
+        public static IHtmlContent ListBoxFor<TModel, TResult>(
             [NotNull] this IHtmlHelper<TModel> htmlHelper,
             [NotNull] Expression<Func<TModel, TResult>> expression,
             IEnumerable<SelectListItem> selectList)

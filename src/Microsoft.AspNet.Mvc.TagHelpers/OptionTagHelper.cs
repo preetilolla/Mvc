@@ -74,7 +74,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                     var encodedValues = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                     foreach (var selectedValue in selectedValues)
                     {
-                        encodedValues.Add(Generator.Encode(selectedValue));
+                        encodedValues.Add(Generator.Encode(selectedValue).ToString());
                     }
 
                     // Select this <option/> element if value attribute or content matches a selected value. Callers
