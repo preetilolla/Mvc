@@ -109,7 +109,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 FallbackHref = "test.css",
@@ -323,7 +324,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 GlobbingUrlBuilder = globbingUrlBuilder.Object
@@ -369,7 +371,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 FallbackHref = "test.css",
@@ -478,7 +481,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
             };
@@ -509,7 +513,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
             };
@@ -551,7 +556,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 GlobbingUrlBuilder = globbingUrlBuilder.Object,
                 ViewContext = viewContext,
@@ -595,7 +601,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 GlobbingUrlBuilder = globbingUrlBuilder.Object,
                 ViewContext = viewContext,
@@ -639,7 +646,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 Href = "/css/site.css",
@@ -680,7 +688,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 Href = "/bar/css/site.css",
@@ -725,7 +734,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 GlobbingUrlBuilder = globbingUrlBuilder.Object,
                 ViewContext = viewContext,
@@ -833,6 +843,17 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                         /*options*/ It.IsAny<MemoryCacheEntryOptions>()))
                 .Returns(result);
             return cache.Object;
+        }
+
+        private static IUrlHelper MakeUrlHelper()
+        {
+            var urlHelper = new Mock<IUrlHelper>();
+
+            urlHelper
+                .Setup(helper => helper.Content(It.IsAny<string>()))
+                .Returns(new Func<string, string>(url => url));
+
+            return urlHelper.Object;
         }
     }
 }

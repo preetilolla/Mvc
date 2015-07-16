@@ -426,6 +426,26 @@ namespace Microsoft.AspNet.Mvc.Razor
             return string.Format(CultureInfo.CurrentCulture, GetString("RazorPage_InvalidTagHelperIndexerAssignment"), p0, p1, p2);
         }
 
+        /// <summary>
+        /// Could not resolve application relative URL '{0}' by calling '{1}.{2}'. To disable application relative URL resolution you can add the following directive to your Razor page:
+        /// 
+        /// @removeTagHelper "{3}, {4}".
+        /// </summary>
+        internal static string CouldNotResolveApplicationRelativeUrl_TagHelper
+        {
+            get { return GetString("CouldNotResolveApplicationRelativeUrl_TagHelper"); }
+        }
+
+        /// <summary>
+        /// Could not resolve application relative URL '{0}' by calling '{1}.{2}'. To disable application relative URL resolution you can add the following directive to your Razor page:
+        /// 
+        /// @removeTagHelper "{3}, {4}".
+        /// </summary>
+        internal static string FormatCouldNotResolveApplicationRelativeUrl_TagHelper(object p0, object p1, object p2, object p3, object p4)
+        {
+            return string.Format(CultureInfo.CurrentCulture, GetString("CouldNotResolveApplicationRelativeUrl_TagHelper"), p0, p1, p2, p3, p4);
+        }
+
         private static string GetString(string name, params string[] formatterNames)
         {
             var value = _resourceManager.GetString(name);

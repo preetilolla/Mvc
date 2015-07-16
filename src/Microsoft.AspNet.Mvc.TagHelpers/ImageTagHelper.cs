@@ -30,10 +30,12 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
         /// </summary>
         /// <param name="hostingEnvironment">The <see cref="IHostingEnvironment"/>.</param>
         /// <param name="cache">The <see cref="IMemoryCache"/>.</param>
-        public ImageTagHelper(IHostingEnvironment hostingEnvironment, IMemoryCache cache)
+        /// <param name="urlHelper">The <see cref="IUrlHelper"/>.</param>
+        public ImageTagHelper(IHostingEnvironment hostingEnvironment, IMemoryCache cache, IUrlHelper urlHelper)
         {
             HostingEnvironment = hostingEnvironment;
             Cache = cache;
+            UrlHelper = urlHelper;
         }
 
         /// <summary>
@@ -61,9 +63,13 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
         protected IMemoryCache Cache { get; }
 
+        protected IUrlHelper UrlHelper { get; }
+
         /// <inheritdoc />
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
+            Src = UrlHelper.Content(Src);
+
             if (AppendVersion)
             {
                 EnsureFileVersionProvider();
@@ -73,6 +79,9 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             {
                 // Pass through attribute that is also a well-known HTML attribute.
                 output.CopyHtmlAttribute(SrcAttributeName, context);
+
+                // Need to update the TagHelperOutput's attribute if the URL is application relative.
+                output.Attributes[SrcAttributeName].Value = Src;
             }
         }
 

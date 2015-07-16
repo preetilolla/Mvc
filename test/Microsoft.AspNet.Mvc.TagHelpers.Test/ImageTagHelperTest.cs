@@ -33,7 +33,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 attributes: new TagHelperAttributeList
                 {
                     { "alt", new HtmlString("alt text") },
-                    { "data-extra", new HtmlString("something") },                    
+                    { "data-extra", new HtmlString("something") },
                     { "title", new HtmlString("Image title") },
                     { "src", "testimage.png" },
                     { "asp-append-version", "true" }
@@ -42,7 +42,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 attributes: new TagHelperAttributeList
                 {
                     { "alt", new HtmlString("alt text") },
-                    { "data-extra", new HtmlString("something") },                    
+                    { "data-extra", new HtmlString("something") },
                     { "title", new HtmlString("Image title") },
                 });
 
@@ -58,7 +58,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var hostingEnvironment = MakeHostingEnvironment();
             var viewContext = MakeViewContext();
 
-            var helper = new ImageTagHelper(hostingEnvironment, MakeCache())
+            var helper = new ImageTagHelper(hostingEnvironment, MakeCache(), MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 Src = "testimage.png",
@@ -68,10 +68,10 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             // Act
             helper.Process(context, output);
 
-            // Assert            
+            // Assert
             Assert.Equal(expectedOutput.TagName, output.TagName);
             Assert.Equal(4, output.Attributes.Count);
-            
+
             for(int i=0; i < expectedOutput.Attributes.Count; i++)
             {
                 var expectedAtribute = expectedOutput.Attributes[i];
@@ -101,7 +101,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var hostingEnvironment = MakeHostingEnvironment();
             var viewContext = MakeViewContext();
 
-            var helper = new ImageTagHelper(hostingEnvironment, MakeCache())
+            var helper = new ImageTagHelper(hostingEnvironment, MakeCache(), MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 Src = "/images/test-image.png",
@@ -137,7 +137,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var hostingEnvironment = MakeHostingEnvironment();
             var viewContext = MakeViewContext();
 
-            var helper = new ImageTagHelper(hostingEnvironment, MakeCache())
+            var helper = new ImageTagHelper(hostingEnvironment, MakeCache(), MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 Src = "/images/test-image.png",
@@ -175,7 +175,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             var hostingEnvironment = MakeHostingEnvironment();
             var viewContext = MakeViewContext("/bar");
 
-            var helper = new ImageTagHelper(hostingEnvironment, MakeCache())
+            var helper = new ImageTagHelper(hostingEnvironment, MakeCache(), MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 Src = "/bar/images/image.jpg",
@@ -270,6 +270,17 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                         /*options*/ It.IsAny<MemoryCacheEntryOptions>()))
                 .Returns(new object());
             return cache.Object;
+        }
+
+        private static IUrlHelper MakeUrlHelper()
+        {
+            var urlHelper = new Mock<IUrlHelper>();
+
+            urlHelper
+                .Setup(helper => helper.Content(It.IsAny<string>()))
+                .Returns(new Func<string, string>(url => url));
+
+            return urlHelper.Object;
         }
     }
 }

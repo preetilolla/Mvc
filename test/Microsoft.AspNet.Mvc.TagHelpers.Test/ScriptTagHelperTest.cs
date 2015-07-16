@@ -59,7 +59,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 FallbackSrc = "~/blank.js",
@@ -316,7 +317,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 GlobbingUrlBuilder = globbingUrlBuilder.Object
@@ -411,7 +413,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
             };
@@ -445,7 +448,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
             };
@@ -488,7 +492,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 MakeHostingEnvironment(),
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
             };
@@ -517,7 +522,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 MakeHostingEnvironment(),
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
             };
@@ -568,7 +574,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 FallbackSrc = "~/blank.js",
@@ -609,7 +616,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 GlobbingUrlBuilder = globbingUrlBuilder.Object,
                 ViewContext = viewContext,
@@ -649,7 +657,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 GlobbingUrlBuilder = globbingUrlBuilder.Object,
                 ViewContext = viewContext,
@@ -689,7 +698,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 MakeHostingEnvironment(),
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 AppendVersion = true,
@@ -727,7 +737,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 MakeHostingEnvironment(),
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 AppendVersion = true,
@@ -767,7 +778,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 MakeHostingEnvironment(),
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 FallbackSrc = "fallback.js",
@@ -813,7 +825,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 MakeHostingEnvironment(),
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 GlobbingUrlBuilder = globbingUrlBuilder.Object,
                 ViewContext = viewContext,
@@ -928,6 +941,17 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                         /*options*/ cacheEntryOptions))
                 .Returns(result);
             return cache.Object;
+        }
+
+        private static IUrlHelper MakeUrlHelper()
+        {
+            var urlHelper = new Mock<IUrlHelper>();
+
+            urlHelper
+                .Setup(helper => helper.Content(It.IsAny<string>()))
+                .Returns(new Func<string, string>(url => url));
+
+            return urlHelper.Object;
         }
     }
 }

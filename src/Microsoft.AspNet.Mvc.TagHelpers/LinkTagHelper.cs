@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -91,18 +90,21 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
         /// <param name="cache">The <see cref="IMemoryCache"/>.</param>
         /// <param name="htmlEncoder">The <see cref="IHtmlEncoder"/>.</param>
         /// <param name="javaScriptEncoder">The <see cref="IJavaScriptStringEncoder"/>.</param>
+        /// <param name="urlHelper">The <see cref="IUrlHelper"/>.</param>
         public LinkTagHelper(
             ILogger<LinkTagHelper> logger,
             IHostingEnvironment hostingEnvironment,
             IMemoryCache cache,
             IHtmlEncoder htmlEncoder,
-            IJavaScriptStringEncoder javaScriptEncoder)
+            IJavaScriptStringEncoder javaScriptEncoder,
+            IUrlHelper urlHelper)
         {
             Logger = logger;
             HostingEnvironment = hostingEnvironment;
             Cache = cache;
             HtmlEncoder = htmlEncoder;
             JavaScriptEncoder = javaScriptEncoder;
+            UrlHelper = urlHelper;
         }
 
         /// <summary>
@@ -199,6 +201,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
         protected IJavaScriptStringEncoder JavaScriptEncoder { get; }
 
+        protected IUrlHelper UrlHelper { get; }
+
         // Internal for ease of use when testing.
         protected internal GlobbingUrlBuilder GlobbingUrlBuilder { get; set; }
 
@@ -209,6 +213,11 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             if (Href != null)
             {
                 output.CopyHtmlAttribute(HrefAttributeName, context);
+
+                Href = UrlHelper.Content(Href);
+
+                // Need to update the TagHelperOutput's attribute if the URL is application relative.
+                output.Attributes[HrefAttributeName].Value = Href;
             }
 
             var modeResult = AttributeMatcher.DetermineMode(context, ModeDetails);
@@ -243,6 +252,9 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             if (mode == Mode.GlobbedHref || mode == Mode.Fallback && !string.IsNullOrEmpty(HrefInclude))
             {
+                HrefInclude = UrlHelper.Content(HrefInclude);
+                HrefExclude = UrlHelper.Content(HrefExclude);
+
                 BuildGlobbedLinkTags(attributes, builder);
                 if (string.IsNullOrEmpty(Href))
                 {
@@ -254,6 +266,10 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             if (mode == Mode.Fallback)
             {
+                FallbackHref = UrlHelper.Content(FallbackHref);
+                FallbackHrefInclude = UrlHelper.Content(FallbackHrefInclude);
+                FallbackHrefExclude = UrlHelper.Content(FallbackHrefExclude);
+
                 BuildFallbackBlock(builder);
             }
 
@@ -292,7 +308,7 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             {
                 if (AppendVersion == true)
                 {
-                    for (var i=0; i < fallbackHrefs.Length; i++)
+                    for (var i = 0; i < fallbackHrefs.Length; i++)
                     {
                         // fallbackHrefs come from bound attributes and globbing. Must always be non-null.
                         Debug.Assert(fallbackHrefs[i] != null);

@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -78,18 +77,21 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
         /// <param name="cache">The <see cref="IMemoryCache"/>.</param>
         /// <param name="htmlEncoder">The <see cref="IHtmlEncoder"/>.</param>
         /// <param name="javaScriptEncoder">The <see cref="IJavaScriptStringEncoder"/>.</param>
+        /// <param name="urlHelper">The <see cref="IUrlHelper"/>.</param>
         public ScriptTagHelper(
             ILogger<ScriptTagHelper> logger,
             IHostingEnvironment hostingEnvironment,
             IMemoryCache cache,
             IHtmlEncoder htmlEncoder,
-            IJavaScriptStringEncoder javaScriptEncoder)
+            IJavaScriptStringEncoder javaScriptEncoder,
+            IUrlHelper urlHelper)
         {
             Logger = logger;
             HostingEnvironment = hostingEnvironment;
             Cache = cache;
             HtmlEncoder = htmlEncoder;
             JavaScriptEncoder = javaScriptEncoder;
+            UrlHelper = urlHelper;
         }
 
         /// <summary>
@@ -168,6 +170,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
         protected IJavaScriptStringEncoder JavaScriptEncoder { get; }
 
+        protected IUrlHelper UrlHelper { get; }
+
         // Internal for ease of use when testing.
         protected internal GlobbingUrlBuilder GlobbingUrlBuilder { get; set; }
 
@@ -178,6 +182,11 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             if (Src != null)
             {
                 output.CopyHtmlAttribute(SrcAttributeName, context);
+
+                Src = UrlHelper.Content(Src);
+
+                // Need to update the TagHelperOutput's attribute if the URL is application relative.
+                output.Attributes[SrcAttributeName].Value = Src;
             }
 
             var modeResult = AttributeMatcher.DetermineMode(context, ModeDetails);
@@ -212,6 +221,9 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             if (mode == Mode.GlobbedSrc || mode == Mode.Fallback && !string.IsNullOrEmpty(SrcInclude))
             {
+                SrcInclude = UrlHelper.Content(SrcInclude);
+                SrcExclude = UrlHelper.Content(SrcExclude);
+
                 BuildGlobbedScriptTags(attributes, builder);
                 if (string.IsNullOrEmpty(Src))
                 {
@@ -223,6 +235,10 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             if (mode == Mode.Fallback)
             {
+                FallbackSrc = UrlHelper.Content(FallbackSrc);
+                FallbackSrcInclude = UrlHelper.Content(FallbackSrcInclude);
+                FallbackSrcExclude = UrlHelper.Content(FallbackSrcExclude);
+
                 BuildFallbackBlock(attributes, builder);
             }
 
