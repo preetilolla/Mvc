@@ -49,7 +49,7 @@ namespace Microsoft.AspNet.Mvc.Razor.TagHelpers
     {
         // Valid whitespace characters defined by the HTML5 spec.
         private static readonly char[] ValidAttributeWhitespaceChars =
-            new[] { '\u0009', '\u000A', '\u000C', '\u000D' };
+            new[] { '\u0009', '\u000A', '\u000C', '\u000D', ' ' };
         private static readonly IReadOnlyDictionary<string, IEnumerable<string>> ElementAttributeLookups =
             new Dictionary<string, IEnumerable<string>>(StringComparer.OrdinalIgnoreCase)
             {
@@ -129,9 +129,9 @@ namespace Microsoft.AspNet.Mvc.Razor.TagHelpers
                     if (attribute.Value is string)
                     {
                         if (TryResolveUrl(
-                                (string)attribute.Value,
-                                tryEncodeApplicationPath: false,
-                                resolvedUrl: out resolvedUrl))
+                            (string)attribute.Value,
+                            tryEncodeApplicationPath: false,
+                            resolvedUrl: out resolvedUrl))
                         {
                             attribute.Value = resolvedUrl;
                         }

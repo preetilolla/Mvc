@@ -229,7 +229,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
                 hostingEnvironment,
                 MakeCache(),
                 new CommonTestEncoder(),
-                new CommonTestEncoder())
+                new CommonTestEncoder(),
+                MakeUrlHelper())
             {
                 ViewContext = viewContext,
                 GlobbingUrlBuilder = globbingUrlBuilder.Object
