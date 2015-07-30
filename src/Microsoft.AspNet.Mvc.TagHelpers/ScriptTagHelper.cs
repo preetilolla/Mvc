@@ -183,10 +183,9 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             {
                 output.CopyHtmlAttribute(SrcAttributeName, context);
 
-                Src = UrlHelper.Content(Src);
-
-                // Need to update the TagHelperOutput's attribute if the URL is application relative.
-                output.Attributes[SrcAttributeName].Value = Src;
+                Src = UrlHelper.Content(Src.Trim());
+                output.Attributes[SrcAttributeName].Value =
+                    UrlHelper.Content(output.Attributes[SrcAttributeName].Value.ToString().Trim());
             }
 
             var modeResult = AttributeMatcher.DetermineMode(context, ModeDetails);
@@ -221,8 +220,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             if (mode == Mode.GlobbedSrc || mode == Mode.Fallback && !string.IsNullOrEmpty(SrcInclude))
             {
-                SrcInclude = UrlHelper.Content(SrcInclude);
-                SrcExclude = UrlHelper.Content(SrcExclude);
+                SrcInclude = UrlHelper.Content(SrcInclude?.Trim());
+                SrcExclude = UrlHelper.Content(SrcExclude?.Trim());
 
                 BuildGlobbedScriptTags(attributes, builder);
                 if (string.IsNullOrEmpty(Src))
@@ -235,9 +234,9 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             if (mode == Mode.Fallback)
             {
-                FallbackSrc = UrlHelper.Content(FallbackSrc);
-                FallbackSrcInclude = UrlHelper.Content(FallbackSrcInclude);
-                FallbackSrcExclude = UrlHelper.Content(FallbackSrcExclude);
+                FallbackSrc = UrlHelper.Content(FallbackSrc?.Trim());
+                FallbackSrcInclude = UrlHelper.Content(FallbackSrcInclude?.Trim());
+                FallbackSrcExclude = UrlHelper.Content(FallbackSrcExclude?.Trim());
 
                 BuildFallbackBlock(attributes, builder);
             }

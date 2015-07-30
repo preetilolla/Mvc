@@ -196,8 +196,8 @@
     <value>Unable to perform '{0}' assignment. Tag helper property '{1}.{2}' must not be null.</value>
   </data>
   <data name="CouldNotResolveApplicationRelativeUrl_TagHelper" xml:space="preserve">
-    <value>Could not resolve application relative URL '{0}' by calling '{1}.{2}'. To disable application relative URL resolution you can add the following directive to your Razor page:
+    <value>Unexpected return value from '{1}.{2}' for URL '{0}'. If you have overridden the '{1}' service, change '{2}' to replace only the '~/' prefix. Otherwise, add the following directive to your Razor page to disable application-relative URL resolution:
 
-@removeTagHelper "{3}, {4}".</value>
+@{3} "{4}, {5}"</value>
   </data>
 </root>

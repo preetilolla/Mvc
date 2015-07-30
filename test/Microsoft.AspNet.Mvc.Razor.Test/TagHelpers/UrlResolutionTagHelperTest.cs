@@ -146,6 +146,7 @@ namespace Microsoft.AspNet.Mvc.Razor.TagHelpers
                 relativeUrl,
                 nameof(IUrlHelper),
                 nameof(IUrlHelper.Content),
+                "removeTagHelper",
                 typeof(UrlResolutionTagHelper).FullName,
                 typeof(UrlResolutionTagHelper).GetTypeInfo().Assembly.GetName().Name);
             var tagHelperOutput = new TagHelperOutput(

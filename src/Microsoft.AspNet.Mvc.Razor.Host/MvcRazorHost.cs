@@ -40,7 +40,7 @@ namespace Microsoft.AspNet.Mvc.Razor
             new AddTagHelperChunk
             {
                 LookupText = "Microsoft.AspNet.Mvc.Razor.TagHelpers.UrlResolutionTagHelper, Microsoft.AspNet.Mvc.Razor"
-            }
+            },
         };
 
         // CodeGenerationContext.DefaultBaseClass is set to MyBaseType<dynamic>.

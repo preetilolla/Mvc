@@ -68,20 +68,18 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
         /// <inheritdoc />
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            Src = UrlHelper.Content(Src);
-
             if (AppendVersion)
             {
                 EnsureFileVersionProvider();
+                Src = UrlHelper.Content(Src.Trim());
                 output.Attributes[SrcAttributeName] = _fileVersionProvider.AddFileVersionToPath(Src);
             }
             else
             {
                 // Pass through attribute that is also a well-known HTML attribute.
                 output.CopyHtmlAttribute(SrcAttributeName, context);
-
-                // Need to update the TagHelperOutput's attribute if the URL is application relative.
-                output.Attributes[SrcAttributeName].Value = Src;
+                output.Attributes[SrcAttributeName].Value =
+                    UrlHelper.Content(output.Attributes[SrcAttributeName].Value.ToString().Trim());
             }
         }
 

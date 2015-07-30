@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.AspNet.Razor.Runtime.TagHelpers;
@@ -12,65 +13,69 @@ using Microsoft.Framework.WebEncoders;
 namespace Microsoft.AspNet.Mvc.Razor.TagHelpers
 {
     /// <summary>
-    /// <see cref="ITagHelper"/> implementation targeting elements containing attributes with url expected values.
+    /// <see cref="ITagHelper"/> implementation targeting elements containing attributes with URL expected values.
     /// </summary>
-    /// <remarks>Resolves application relative URLs.</remarks>
+    /// <remarks>Resolves application relative URLs that are not targeted by other <see cref="ITagHelper"/>s. Runs
+    /// prior to other <see cref="ITagHelper"/>s to ensure application-relative URLs are resolved.</remarks>
     [TargetElement("*", Attributes = "itemid")]
     [TargetElement("a", Attributes = "href")]
+    [TargetElement("applet", Attributes = "archive")]
     [TargetElement("area", Attributes = "href")]
-    [TargetElement("link", Attributes = "href")]
-    [TargetElement("base", Attributes = "href")]
-    [TargetElement("video", Attributes = "poster")]
-    [TargetElement("video", Attributes = "src")]
     [TargetElement("audio", Attributes = "src")]
+    [TargetElement("base", Attributes = "href")]
+    [TargetElement("blockquote", Attributes = "cite")]
+    [TargetElement("button", Attributes = "formaction")]
+    [TargetElement("del", Attributes = "cite")]
     [TargetElement("embed", Attributes = "src")]
+    [TargetElement("form", Attributes = "action")]
+    [TargetElement("html", Attributes = "manifest")]
     [TargetElement("iframe", Attributes = "src")]
     [TargetElement("img", Attributes = "src")]
+    [TargetElement("input", Attributes = "src")]
+    [TargetElement("input", Attributes = "formaction")]
+    [TargetElement("ins", Attributes = "cite")]
+    [TargetElement("link", Attributes = "href")]
+    [TargetElement("menuitem", Attributes = "icon")]
+    [TargetElement("object", Attributes = "archive")]
+    [TargetElement("object", Attributes = "data")]
+    [TargetElement("q", Attributes = "cite")]
     [TargetElement("script", Attributes = "src")]
     [TargetElement("source", Attributes = "src")]
     [TargetElement("track", Attributes = "src")]
-    [TargetElement("input", Attributes = "src")]
-    [TargetElement("input", Attributes = "formaction")]
-    [TargetElement("button", Attributes = "formaction")]
-    [TargetElement("form", Attributes = "action")]
-    [TargetElement("blockquote", Attributes = "cite")]
-    [TargetElement("del", Attributes = "cite")]
-    [TargetElement("ins", Attributes = "cite")]
-    [TargetElement("q", Attributes = "cite")]
-    [TargetElement("menuitem", Attributes = "icon")]
-    [TargetElement("html", Attributes = "manifest")]
-    [TargetElement("object", Attributes = "data")]
-    [TargetElement("object", Attributes = "archive")]
-    [TargetElement("applet", Attributes = "archive")]
+    [TargetElement("video", Attributes = "src")]
+    [TargetElement("video", Attributes = "poster")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class UrlResolutionTagHelper : TagHelper
     {
+        // Valid whitespace characters defined by the HTML5 spec.
+        private static readonly char[] ValidAttributeWhitespaceChars =
+            new[] { '\u0009', '\u000A', '\u000C', '\u000D' };
         private static readonly IReadOnlyDictionary<string, IEnumerable<string>> ElementAttributeLookups =
             new Dictionary<string, IEnumerable<string>>(StringComparer.OrdinalIgnoreCase)
             {
                 { "a", new[] { "href" } },
+                { "applet", new[] { "archive" } },
                 { "area", new[] { "href" } },
-                { "link", new[] { "href" } },
-                { "base", new[] { "href" } },
-                { "video", new[] { "poster", "src" } },
                 { "audio", new[] { "src" } },
+                { "base", new[] { "href" } },
+                { "blockquote", new[] { "cite" } },
+                { "button", new[] { "formaction" } },
+                { "del", new[] { "cite" } },
                 { "embed", new[] { "src" } },
+                { "form", new[] { "action" } },
+                { "html", new[] { "manifest" } },
                 { "iframe", new[] { "src" } },
                 { "img", new[] { "src" } },
+                { "input", new[] { "src", "formaction" } },
+                { "ins", new[] { "cite" } },
+                { "link", new[] { "href" } },
+                { "menuitem", new[] { "icon" } },
+                { "object", new[] { "archive", "data" } },
+                { "q", new[] { "cite" } },
                 { "script", new[] { "src" } },
                 { "source", new[] { "src" } },
                 { "track", new[] { "src" } },
-                { "input", new[] { "src", "formaction" } },
-                { "button", new[] { "formaction" } },
-                { "form", new[] { "action" } },
-                { "blockquote", new[] { "cite" } },
-                { "del", new[] { "cite" } },
-                { "ins", new[] { "cite" } },
-                { "q", new[] { "cite" } },
-                { "menuitem", new[] { "icon" } },
-                { "html", new[] { "manifest" } },
-                { "object", new[] { "data", "archive" } },
-                { "applet", new[] { "archive" } },
+                { "video", new[] { "poster", "src" } },
             };
 
         /// <summary>
@@ -89,7 +94,7 @@ namespace Microsoft.AspNet.Mvc.Razor.TagHelpers
         {
             get
             {
-                return int.MinValue;
+                return DefaultOrder.DefaultFrameworkSortOrder - 999;
             }
         }
 
@@ -135,9 +140,9 @@ namespace Microsoft.AspNet.Mvc.Razor.TagHelpers
                     {
                         var htmlStringValue = ((HtmlString)attribute.Value).ToString();
                         if (TryResolveUrl(
-                                htmlStringValue,
-                                tryEncodeApplicationPath: true,
-                                resolvedUrl: out resolvedUrl))
+                            htmlStringValue,
+                            tryEncodeApplicationPath: true,
+                            resolvedUrl: out resolvedUrl))
                         {
                             attribute.Value = new HtmlString(resolvedUrl);
                         }
@@ -159,13 +164,13 @@ namespace Microsoft.AspNet.Mvc.Razor.TagHelpers
 
             // Find the start of the potential application relative URL value.
             var prefixEndIndex = -1;
-            while (++prefixEndIndex < urlLength && char.IsWhiteSpace(url[prefixEndIndex])) ;
+            while (++prefixEndIndex < urlLength && ValidAttributeWhitespaceChars.Contains(url[prefixEndIndex])) { }
 
             // Before doing more work, ensure that the URL we're looking at is app relative.
             if (prefixEndIndex < urlLength - 2 && url[prefixEndIndex] == '~' && url[prefixEndIndex + 1] == '/')
             {
                 var valueEndIndex = prefixEndIndex - 1;
-                while (++valueEndIndex < urlLength && !char.IsWhiteSpace(url[valueEndIndex])) ;
+                while (++valueEndIndex < urlLength && !ValidAttributeWhitespaceChars.Contains(url[valueEndIndex])) { }
 
                 var prefix = url.Substring(0, prefixEndIndex);
                 var urlValue = url.Substring(prefixEndIndex, valueEndIndex - prefixEndIndex);
@@ -174,27 +179,28 @@ namespace Microsoft.AspNet.Mvc.Razor.TagHelpers
 
                 if (tryEncodeApplicationPath)
                 {
-                    var postTildaSlashUrlValue = urlValue.Substring(2);
+                    var postTildeSlashUrlValue = urlValue.Substring(2);
 
-                    if (!appRelativeUrl.EndsWith(postTildaSlashUrlValue, StringComparison.Ordinal))
+                    if (!appRelativeUrl.EndsWith(postTildeSlashUrlValue, StringComparison.Ordinal))
                     {
                         throw new InvalidOperationException(
                             Resources.FormatCouldNotResolveApplicationRelativeUrl_TagHelper(
                                 url,
                                 nameof(IUrlHelper),
                                 nameof(IUrlHelper.Content),
+                                "removeTagHelper",
                                 typeof(UrlResolutionTagHelper).FullName,
                                 typeof(UrlResolutionTagHelper).GetTypeInfo().Assembly.GetName().Name));
                     }
 
-                    var applicationPath = appRelativeUrl.Substring(0, appRelativeUrl.Length - postTildaSlashUrlValue.Length);
+                    var applicationPath = appRelativeUrl.Substring(0, appRelativeUrl.Length - postTildeSlashUrlValue.Length);
                     var encodedApplicationPath = HtmlEncoder.HtmlEncode(applicationPath);
 
-                    resolvedUrl = string.Join(string.Empty, prefix, encodedApplicationPath, postTildaSlashUrlValue, suffix);
+                    resolvedUrl = string.Concat(prefix, encodedApplicationPath, postTildeSlashUrlValue, suffix);
                 }
                 else
                 {
-                    resolvedUrl = string.Join(string.Empty, prefix, appRelativeUrl, suffix);
+                    resolvedUrl = string.Concat(prefix, appRelativeUrl, suffix);
                 }
 
                 return true;

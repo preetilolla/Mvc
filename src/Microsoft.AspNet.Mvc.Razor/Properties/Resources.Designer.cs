@@ -427,9 +427,9 @@ namespace Microsoft.AspNet.Mvc.Razor
         }
 
         /// <summary>
-        /// Could not resolve application relative URL '{0}' by calling '{1}.{2}'. To disable application relative URL resolution you can add the following directive to your Razor page:
+        /// Unexpected return value from '{1}.{2}' for URL '{0}'. If you have overridden the '{1}' service, change '{2}' to replace only the '~/' prefix. Otherwise, add the following directive to your Razor page to disable application-relative URL resolution:
         /// 
-        /// @removeTagHelper "{3}, {4}".
+        /// @{3} "{4}, {5}"
         /// </summary>
         internal static string CouldNotResolveApplicationRelativeUrl_TagHelper
         {
@@ -437,13 +437,13 @@ namespace Microsoft.AspNet.Mvc.Razor
         }
 
         /// <summary>
-        /// Could not resolve application relative URL '{0}' by calling '{1}.{2}'. To disable application relative URL resolution you can add the following directive to your Razor page:
+        /// Unexpected return value from '{1}.{2}' for URL '{0}'. If you have overridden the '{1}' service, change '{2}' to replace only the '~/' prefix. Otherwise, add the following directive to your Razor page to disable application-relative URL resolution:
         /// 
-        /// @removeTagHelper "{3}, {4}".
+        /// @{3} "{4}, {5}"
         /// </summary>
-        internal static string FormatCouldNotResolveApplicationRelativeUrl_TagHelper(object p0, object p1, object p2, object p3, object p4)
+        internal static string FormatCouldNotResolveApplicationRelativeUrl_TagHelper(object p0, object p1, object p2, object p3, object p4, object p5)
         {
-            return string.Format(CultureInfo.CurrentCulture, GetString("CouldNotResolveApplicationRelativeUrl_TagHelper"), p0, p1, p2, p3, p4);
+            return string.Format(CultureInfo.CurrentCulture, GetString("CouldNotResolveApplicationRelativeUrl_TagHelper"), p0, p1, p2, p3, p4, p5);
         }
 
         private static string GetString(string name, params string[] formatterNames)

@@ -214,10 +214,9 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
             {
                 output.CopyHtmlAttribute(HrefAttributeName, context);
 
-                Href = UrlHelper.Content(Href);
-
-                // Need to update the TagHelperOutput's attribute if the URL is application relative.
-                output.Attributes[HrefAttributeName].Value = Href;
+                Href = UrlHelper.Content(Href.Trim());
+                output.Attributes[HrefAttributeName].Value =
+                    UrlHelper.Content(output.Attributes[HrefAttributeName].Value.ToString().Trim());
             }
 
             var modeResult = AttributeMatcher.DetermineMode(context, ModeDetails);
@@ -252,8 +251,8 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             if (mode == Mode.GlobbedHref || mode == Mode.Fallback && !string.IsNullOrEmpty(HrefInclude))
             {
-                HrefInclude = UrlHelper.Content(HrefInclude);
-                HrefExclude = UrlHelper.Content(HrefExclude);
+                HrefInclude = UrlHelper.Content(HrefInclude?.Trim());
+                HrefExclude = UrlHelper.Content(HrefExclude?.Trim());
 
                 BuildGlobbedLinkTags(attributes, builder);
                 if (string.IsNullOrEmpty(Href))
@@ -266,9 +265,9 @@ namespace Microsoft.AspNet.Mvc.TagHelpers
 
             if (mode == Mode.Fallback)
             {
-                FallbackHref = UrlHelper.Content(FallbackHref);
-                FallbackHrefInclude = UrlHelper.Content(FallbackHrefInclude);
-                FallbackHrefExclude = UrlHelper.Content(FallbackHrefExclude);
+                FallbackHref = UrlHelper.Content(FallbackHref?.Trim());
+                FallbackHrefInclude = UrlHelper.Content(FallbackHrefInclude?.Trim());
+                FallbackHrefExclude = UrlHelper.Content(FallbackHrefExclude?.Trim());
 
                 BuildFallbackBlock(builder);
             }
